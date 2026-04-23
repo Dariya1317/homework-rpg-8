@@ -1,13 +1,7 @@
 package com.narxoz.rpg.combatant;
 
+import com.narxoz.rpg.state.HeroState;
 import com.narxoz.rpg.state.NormalState;
-
-/**
- * Represents a player-controlled hero participating in the tower climb.
- *
- * Students: you may extend this class as needed for your implementation.
- * You will need to add a HeroState field and related methods.
- */
 public class Hero {
 
     private final String name;
@@ -15,6 +9,7 @@ public class Hero {
     private final int maxHp;
     private final int attackPower;
     private final int defense;
+    private HeroState state;
 
     public Hero(String name, int hp, int attackPower, int defense) {
         this.name = name;
@@ -22,6 +17,7 @@ public class Hero {
         this.maxHp = hp;
         this.attackPower = attackPower;
         this.defense = defense;
+        this.state = new NormalState();
     }
 
     public String getName()        { return name; }
@@ -30,27 +26,39 @@ public class Hero {
     public int getAttackPower()    { return attackPower; }
     public int getDefense()        { return defense; }
     public boolean isAlive()       { return hp > 0; }
+    public HeroState getState()    { return state; }
 
-    /**
-     * Reduces this hero's HP by the given amount, clamped to zero.
-     *
-     * @param amount the damage to apply; must be non-negative
-     */
+    public void setState(HeroState newState) {
+        System.out.println("  [STATE] " + name + " transitions to: " + newState.getName());
+        this.state = newState;
+    }
+
+    public boolean canAct() {
+        return state.canAct();
+    }
+
+    public void onTurnStart() {
+        state.onTurnStart(this);
+    }
+
+    public void onTurnEnd() {
+        state.onTurnEnd(this);
+    }
+
+    public int getEffectiveDamage() {
+        return state.modifyOutgoingDamage(attackPower);
+    }
+
+    public int receiveAttack(int rawDamage) {
+        int modified = state.modifyIncomingDamage(rawDamage);
+        int actual = Math.max(1, modified - defense);
+        takeDamage(actual);
+        return actual;
+    }
     public void takeDamage(int amount) {
         hp = Math.max(0, hp - amount);
     }
-
-    /**
-     * Restores this hero's HP by the given amount, clamped to maxHp.
-     *
-     * @param amount the HP to restore; must be non-negative
-     */
     public void heal(int amount) {
         hp = Math.min(maxHp, hp + amount);
-    }
-
-    public void setState(NormalState normalState) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setState'");
     }
 }
