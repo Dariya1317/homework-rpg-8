@@ -3,7 +3,6 @@ package com.narxoz.rpg.floor;
 import com.narxoz.rpg.combatant.Hero;
 import com.narxoz.rpg.state.NormalState;
 import com.narxoz.rpg.state.PoisonedState;
-
 import java.util.List;
 
 public class TrapFloor extends TowerFloor {
@@ -59,7 +58,6 @@ public class TrapFloor extends TowerFloor {
         return new FloorResult(cleared, totalDamageTaken, summary);
     }
 
-    // HOOK OVERRIDE: no loot if the party took too much damage from traps
     @Override
     protected boolean shouldAwardLoot(FloorResult result) {
         if (result.getDamageTaken() >= 30) {
