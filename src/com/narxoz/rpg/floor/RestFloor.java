@@ -37,7 +37,7 @@ public class RestFloor extends TowerFloor {
 
     @Override
     protected boolean shouldAwardLoot(FloorResult result) {
-        System.out.println("  [HOOK] This is a rest floor — no loot awarded.");
+        System.out.println("  [HOOK] This is a rest floor - no loot awarded.");
         return false;
     }
 

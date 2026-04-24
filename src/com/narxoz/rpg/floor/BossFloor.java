@@ -20,11 +20,8 @@ public class BossFloor extends TowerFloor {
     }
     @Override
     protected void announce() {
-        System.out.println("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("!!! BOSS BATTLE: " + floorName + " !!!");
-        System.out.println("!!! Prepare for the fight of your lives !!!");
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-    }
+        System.out.println("\n!!! BOSS BATTLE: " + floorName + " !!!");
+}
     @Override
     protected void setup(List<Hero> party) {
         boss = new Monster("Ancient Dragon", 80, 18);
